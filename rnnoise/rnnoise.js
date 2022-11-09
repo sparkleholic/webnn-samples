@@ -20,7 +20,7 @@ export class RNNoise {
   }
 
   async load(contextOptions) {
-    const context = navigator.ml.createContext(contextOptions);
+    const context = await navigator.ml.createContext(contextOptions);
     this.builder_ = new MLGraphBuilder(context);
     // Create constants by loading pre-trained data from .npy files.
     const inputDenseKernel0 = await buildConstantByNpy(this.builder_,
@@ -138,11 +138,11 @@ export class RNNoise {
     return {denoiseOutput, vadGruYH, noiseGruYH, denoiseGruYH};
   }
 
-  build(outputOperand) {
-    this.graph_ = this.builder_.build(outputOperand);
+  async build(outputOperand) {
+    this.graph_ = await this.builder_.buildAsync(outputOperand);
   }
 
   compute(inputs, outputs) {
-    this.graph_.compute(inputs, outputs);
+    await this.graph_.computeAsync(inputs, outputs);
   }
 }

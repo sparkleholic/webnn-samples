@@ -121,7 +121,7 @@ export class FaceNetNchw {
   }
 
   async load(contextOptions) {
-    const context = navigator.ml.createContext(contextOptions);
+    const context = await navigator.ml.createContext(contextOptions);
     this.builder_ = new MLGraphBuilder(context);
     const input = this.builder_.input('input',
         {type: 'float32', dimensions: this.inputOptions.inputDimensions});
@@ -235,8 +235,8 @@ export class FaceNetNchw {
     return gemm;
   }
 
-  build(outputOperand) {
-    this.graph_ = this.builder_.build({'output': outputOperand});
+  async build(outputOperand) {
+    this.graph_ = await this.builder_.buildAsync({'output': outputOperand});
   }
 
   // Release the constant tensors of a model
@@ -247,8 +247,8 @@ export class FaceNetNchw {
     }
   }
 
-  compute(inputBuffer, outputs) {
+  async compute(inputBuffer, outputs) {
     const inputs = {'input': inputBuffer};
-    this.graph_.compute(inputs, outputs);
+    await this.graph_.computeAsync(inputs, outputs);
   }
 }

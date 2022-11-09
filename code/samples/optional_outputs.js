@@ -12,7 +12,7 @@ const bufferC = new Float32Array(sizeOfShape(descC.dimensions)).fill(1);
 const c = builder.constant(descC, bufferC);
 const d = builder.matmul(a, b);
 const e = builder.add(d, c);
-const graph = builder.build({'d': d, 'e': e});
+const graph = await builder.buildAsync({'d': d, 'e': e});
 
 const bufferA = new Float32Array(sizeOfShape(descA.dimensions)).fill(0.5);
 const inputs = {'a': bufferA};

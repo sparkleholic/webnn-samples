@@ -116,7 +116,7 @@ ${nameArray[1]}`;
 
 
   async load(contextOptions) {
-    const context = navigator.ml.createContext(contextOptions);
+    const context = await navigator.ml.createContext(contextOptions);
     this.builder_ = new MLGraphBuilder(context);
     const input = this.builder_.input('input',
         {type: 'float32', dimensions: this.inputOptions.inputDimensions});
@@ -216,8 +216,8 @@ ${nameArray[1]}`;
       biasAdd18, biasAdd21, biasAdd24, biasAdd27, biasAdd30, biasAdd33};
   }
 
-  build(outputOperand) {
-    this.graph_ = this.builder_.build(outputOperand);
+  async build(outputOperand) {
+    this.graph_ = await this.builder_.buildAsync(outputOperand);
   }
 
   // Release the constant tensors of a model
@@ -228,8 +228,8 @@ ${nameArray[1]}`;
     }
   }
 
-  compute(inputBuffer, outputs) {
+  async compute(inputBuffer, outputs) {
     const inputs = {'input': inputBuffer};
-    this.graph_.compute(inputs, outputs);
+    await this.graph_.computeAsync(inputs, outputs);
   }
 }

@@ -15,7 +15,7 @@ export class NSNet2 {
   }
 
   async load(contextOptions, baseUrl, batchSize, frames) {
-    const context = navigator.ml.createContext(contextOptions);
+    const context = await navigator.ml.createContext(contextOptions);
     this.builder_ = new MLGraphBuilder(context);
     // Create constants by loading pre-trained data from .npy files.
     const weight172 = await buildConstantByNpy(this.builder_, baseUrl + '172.npy');
@@ -55,8 +55,8 @@ export class NSNet2 {
     return {output, gru94, gru157};
   }
 
-  build(outputOperand) {
-    this.graph_ = this.builder_.build(outputOperand);
+  async build(outputOperand) {
+    this.graph_ = await this.builder_.buildAsync(outputOperand);
   }
 
   compute(inputBuffer, initialState92Buffer, initialState155Buffer, outputBuffer, gru94Buffer, gru157Buffer) {
@@ -70,7 +70,7 @@ export class NSNet2 {
       'gru94': gru94Buffer,
       'gru157': gru157Buffer,
     };
-    this.graph_.compute(inputs, outputs);
+    await this.graph_.computeAsync(inputs, outputs);
     return outputs;
   }
 }

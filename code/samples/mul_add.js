@@ -7,7 +7,7 @@ const A = builder.input('A', operandType);
 const B = builder.input('B', operandType);
 const C = builder.add(builder.mul(A, constant), B);
 // 2. Build the graph into an executable.
-const graph = builder.build({'C': C});
+const graph = await builder.buildAsync({'C': C});
 // 3. Bind inputs to the graph and execute for the result.
 const bufferA = new Float32Array(4).fill(1.0);
 const bufferB = new Float32Array(4).fill(0.8);

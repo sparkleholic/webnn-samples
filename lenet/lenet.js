@@ -17,7 +17,7 @@ export class LeNet {
       throw new Error('Incorrect weights file');
     }
 
-    const context = navigator.ml.createContext(contextOptions);
+    const context = await navigator.ml.createContext(contextOptions);
     this.builder_ = new MLGraphBuilder(context);
     const inputShape = [1, 1, 28, 28];
     const input =
@@ -113,13 +113,13 @@ export class LeNet {
     return this.builder_.softmax(add4);
   }
 
-  build(outputOperand) {
-    this.graph_ = this.builder_.build({'output': outputOperand});
+  async build(outputOperand) {
+    this.graph_ = await this.builder_.buildAsync({'output': outputOperand});
   }
 
   predict(inputBuffer, outputBuffer) {
     const inputs = {'input': inputBuffer};
     const outputs = {'output': outputBuffer};
-    this.graph_.compute(inputs, outputs);
+    await this.graph_.computeAsync(inputs, outputs);
   }
 }
