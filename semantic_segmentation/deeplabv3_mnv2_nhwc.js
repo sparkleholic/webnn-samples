@@ -71,7 +71,7 @@ export class DeepLabV3MNV2Nhwc {
   }
 
   async load(contextOptions) {
-    const context = navigator.ml.createContext(contextOptions);
+    const context = await navigator.ml.createContext(contextOptions);
     this.builder_ = new MLGraphBuilder(context);
     const strides = [2, 2];
     const input = this.builder_.input('input',
@@ -132,8 +132,8 @@ export class DeepLabV3MNV2Nhwc {
         resample1, {sizes: [513, 513], mode: 'linear', axes: [1, 2]});
   }
 
-  build(outputOperand) {
-    this.graph_ = this.builder_.build({'output': outputOperand});
+  async build(outputOperand) {
+    this.graph_ = await this.builder_.buildAsync({'output': outputOperand});
   }
 
   // Release the constant tensors of a model
@@ -144,9 +144,9 @@ export class DeepLabV3MNV2Nhwc {
     }
   }
 
-  compute(inputBuffer, outputBuffer) {
+  async compute(inputBuffer, outputBuffer) {
     const inputs = {'input': inputBuffer};
     const outputs = {'output': outputBuffer};
-    this.graph_.compute(inputs, outputs);
+    await this.graph_.computeAsync(inputs, outputs);
   }
 }

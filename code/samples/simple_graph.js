@@ -43,7 +43,7 @@ const intermediateOutput2 = builder.add(constant2, input2);
 const output = builder.mul(intermediateOutput1, intermediateOutput2);
 
 // Compile the constructed graph.
-const graph = builder.build({'output': output});
+const graph = await builder.buildAsync({'output': output});
 
 // Setup the input buffers with value 1.
 const inputBuffer1 = new Float32Array(TENSOR_SIZE).fill(1);

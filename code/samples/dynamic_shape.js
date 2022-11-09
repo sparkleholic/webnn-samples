@@ -7,7 +7,7 @@ const a = builder.input('a', descA);
 const descB = {type: 'float32', dimensions: [4, -1]};
 const b = builder.input('b', descB);
 const c = builder.matmul(a, b);
-const graph = builder.build({'c': c});
+const graph = await builder.buildAsync({'c': c});
 
 function compute(shapeA, shapeB, shapeC) {
   const bufferA = new Float32Array(sizeOfShape(shapeA)).fill(0.5);

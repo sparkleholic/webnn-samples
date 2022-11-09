@@ -77,7 +77,7 @@ ${nameArray[1]}_BatchNorm_batchnorm`;
   }
 
   async load(contextOptions) {
-    const context = navigator.ml.createContext(contextOptions);
+    const context = await navigator.ml.createContext(contextOptions);
     this.builder_ = new MLGraphBuilder(context);
     const input = this.builder_.input('input',
         {type: 'float32', dimensions: this.inputOptions.inputDimensions});
@@ -219,8 +219,8 @@ ${nameArray[1]}_BatchNorm_batchnorm`;
     return {'boxes': concat0, 'scores': concat1};
   }
 
-  build(outputOperand) {
-    this.graph_ = this.builder_.build(outputOperand);
+  async build(outputOperand) {
+    this.graph_ = await this.builder_.buildAsync(outputOperand);
   }
 
   // Release the constant tensors of a model
@@ -233,6 +233,6 @@ ${nameArray[1]}_BatchNorm_batchnorm`;
 
   compute(inputBuffer, outputs) {
     const inputs = {'input': inputBuffer};
-    this.graph_.compute(inputs, outputs);
+    await this.graph_.computeAsync(inputs, outputs);
   }
 }
